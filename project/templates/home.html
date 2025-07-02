@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="text-center mt-5">
+    <h1>Welcome to the Job Application System</h1>
+    <p class="lead">You can <a href="{{ url_for('signup') }}">Sign Up</a> or <a href="{{ url_for('login') }}">Log In</a> to access your dashboard.</p>
+</div>
+{% endblock %}
