@@ -56,7 +56,19 @@ project-folder/
    ```bash
    python app.py
    ```
-4. Visit `http://127.0.0.1:5000/login-signup` in your browser.
+4. Visit `https://github.com/Khaalid245/job_seek.git` in your browser.
+
+## 📦 Required Dependencies
+
+Install everything using this command:
+
+```bash
+pip install flask flask_sqlalchemy flask_login
+```
+
+Or create a `requirements.txt` file and add:
+
+```
 
 ## 📚 What I Learned
 
