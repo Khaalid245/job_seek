@@ -1,12 +1,22 @@
+import os
+
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 app.secret_key = "application"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# ✅ File Upload Configuration (ADDED)
+UPLOAD_FOLDER = 'static/uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
 db = SQLAlchemy(app)
 
@@ -26,10 +36,18 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(150), nullable=False)
     password = db.Column(db.String(150), nullable=False)
 
-    #new field
-    skill= db.Column(db.String(200))
+    # New fields
+    skill = db.Column(db.String(200))
     bio = db.Column(db.Text)
     experience = db.Column(db.String(200))
+    location = db.Column(db.String(400))  # ✅ FIXED typo: Column with capital 'C'
+
+    profile_image = db.Column(db.String(300), nullable=True)  # ✅ Changed to nullable=True
+    cv_file = db.Column(db.String(300), nullable=True)        # ✅ Changed to nullable=True
+
+    def __repr__(self):
+        return f"<User {self.username}, {self.email}>"  # ✅ Optional (debugging)
+
 
 # ✅ Signup route
 @app.route('/signup', methods=['GET', 'POST'])
@@ -55,6 +73,7 @@ def signup():
 
     return render_template('signup.html')
 
+
 # ✅ Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -73,12 +92,6 @@ def login():
 
     return render_template('login.html')
 
-# ✅ Home route
-
-@app.route('/home')
-def home():
-    users = User.query.filter(User.skill != None).all()
-    return render_template('home.html',user=users)
 
 # ✅ Dashboard route (protected)
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -88,11 +101,32 @@ def dashboard():
         current_user.skill = request.form['skill']
         current_user.bio = request.form['bio']
         current_user.experience = request.form['experience']
+        current_user.location = request.form['location']  # ✅ ADDED to capture location
+
+        profile_image = request.files['profile_image']
+        if profile_image:
+            filename = secure_filename(profile_image.filename)
+            profile_image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            current_user.profile_image = filename
+
+        cv_file = request.files['cv_file']
+        if cv_file:
+            filename = secure_filename(cv_file.filename)
+            cv_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            current_user.cv_file = filename
+
         db.session.commit()
         flash('Your profile has been updated.', 'success')
         return redirect(url_for('home'))
 
     return render_template('dashboard.html', name=current_user.username)
+
+
+# ✅ Home route
+@app.route('/home')
+def home():
+    users = User.query.filter(User.skill != None).all()
+    return render_template('home.html', user=users)
 
 
 # ✅ Logout route
@@ -102,6 +136,7 @@ def logout():
     logout_user()
     flash('You have been logged out.', 'info')
     return redirect(url_for('login'))
+
 
 # ✅ Run app and create tables
 if __name__ == '__main__':
