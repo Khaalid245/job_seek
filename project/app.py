@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user
+from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -25,6 +25,11 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), nullable=False)
     password = db.Column(db.String(150), nullable=False)
+
+    #new field
+    skill= db.Column(db.String(200))
+    bio = db.Column(db.Text)
+    experience = db.Column(db.String(200))
 
 # ✅ Signup route
 @app.route('/signup', methods=['GET', 'POST'])
@@ -69,15 +74,26 @@ def login():
     return render_template('login.html')
 
 # ✅ Home route
+
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    users = User.query.filter(User.skill != None).all()
+    return render_template('home.html',user=users)
 
 # ✅ Dashboard route (protected)
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    if request.method == 'POST':
+        current_user.skill = request.form['skill']
+        current_user.bio = request.form['bio']
+        current_user.experience = request.form['experience']
+        db.session.commit()
+        flash('Your profile has been updated.', 'success')
+        return redirect(url_for('home'))
+
+    return render_template('dashboard.html', name=current_user.username)
+
 
 # ✅ Logout route
 @app.route('/logout')

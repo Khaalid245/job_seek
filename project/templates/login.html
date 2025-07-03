@@ -3,27 +3,33 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-header bg-success text-white text-center">
-                <h4>Login</h4>
+<div class="flex justify-center">
+    <div class="w-full max-w-md">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="bg-green-600 text-white text-center py-4">
+                <h4 class="text-xl font-semibold">Login</h4>
             </div>
-            <div class="card-body">
+            <div class="px-6 py-6">
                 <form method="POST" action="{{ url_for('login') }}">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium mb-1">Email address</label>
+                        <input type="email" id="email" name="email" required
+                               class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring focus:ring-green-300">
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                    <div class="mb-4">
+                        <label for="password" class="block text-sm font-medium mb-1">Password</label>
+                        <input type="password" id="password" name="password" required
+                               class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring focus:ring-green-300">
                     </div>
-                    <button type="submit" class="btn btn-success w-100">Login</button>
+                    <button type="submit"
+                            class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition duration-200">
+                        Login
+                    </button>
                 </form>
             </div>
-            <div class="card-footer text-center">
-                Don’t have an account? <a href="{{ url_for('signup') }}">Sign up</a>
+            <div class="bg-gray-100 text-center py-3 text-sm">
+                Don’t have an account?
+                <a href="{{ url_for('signup') }}" class="text-blue-600 hover:underline">Sign up</a>
             </div>
         </div>
     </div>

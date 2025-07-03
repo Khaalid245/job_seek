@@ -1,10 +1,21 @@
 {% extends "layout.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}User Profiles{% endblock %}
 
 {% block content %}
-<div class="text-center mt-5">
-    <h1>Welcome to the Job Application System</h1>
-    <p class="lead">You can <a href="{{ url_for('signup') }}">Sign Up</a> or <a href="{{ url_for('login') }}">Log In</a> to access your dashboard.</p>
-</div>
+<h1 class="text-2xl font-bold mb-6 text-center">Submitted User Profiles</h1>
+
+{% if user %}
+    {% for u in user %}
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6 border border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-800">{{ u.username }}</h2>
+        <p class="text-gray-700"><strong>Email:</strong> {{ u.email }}</p>
+        <p class="text-gray-700"><strong>Skill:</strong> {{ u.skill or 'Not submitted' }}</p>
+        <p class="text-gray-700"><strong>Experience:</strong> {{ u.experience or 'Not submitted' }}</p>
+        <p class="text-gray-700"><strong>Bio:</strong> {{ u.bio or 'Not submitted' }}</p>
+    </div>
+    {% endfor %}
+{% else %}
+    <p class="text-gray-500 text-center">No user profiles have been submitted yet.</p>
+{% endif %}
 {% endblock %}

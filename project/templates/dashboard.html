@@ -1,19 +1,30 @@
-{% extends "layout.html" %}
-
-{% block title %}Dashboard{% endblock %}
-
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-8">
-        <div class="card shadow-sm">
-            <div class="card-header bg-dark text-white">
-                <h4>Welcome to Your Dashboard</h4>
+<div class="flex justify-center">
+    <div class="w-full max-w-2xl">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <div class="bg-gray-900 text-white px-6 py-4">
+                <h4 class="text-xl font-semibold">Welcome to Your Dashboard</h4>
             </div>
-            <div class="card-body">
-                <h5>Hello, {{ name }}!</h5>
-                <p>This is your personal dashboard. You can add skill forms or view data here later.</p>
+            <div class="px-6 py-4">
+                <form method="POST">
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Skill</label>
+                        <input name="skill" class="w-full border px-3 py-2 rounded" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Bio</label>
+                        <textarea name="bio" class="w-full border px-3 py-2 rounded" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700">Experience</label>
+                        <input name="experience" class="w-full border px-3 py-2 rounded" required>
+                    </div>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+                </form>
 
-                <a href="{{ url_for('logout') }}" class="btn btn-outline-danger mt-3">Logout</a>
+                <a href="{{ url_for('logout') }}" class="inline-block mt-4 px-4 py-2 border border-red-500 text-red-500 hover:bg-red-50 rounded">
+                    Logout
+                </a>
             </div>
         </div>
     </div>
