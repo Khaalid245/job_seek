@@ -121,6 +121,9 @@ def dashboard():
 
     return render_template('dashboard.html', name=current_user.username)
 
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 # ✅ Home route
 @app.route('/home')

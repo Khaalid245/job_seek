@@ -10,7 +10,14 @@
 <!-- ✅ Navbar -->
 <nav class="bg-gray-900 text-white">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        <a href="{{ url_for('home') }}" class="text-lg font-semibold">MyApp</a>
+             <a class="flex items-center gap-2 text-lg font-semibold">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M5.121 17.804A6.002 6.002 0 0112 15a6.002 6.002 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+            <span>Job Seeker</span>
+        </a>
 
         <div class="space-x-4">
             {% if current_user.is_authenticated %}
@@ -18,7 +25,8 @@
                 <a href="{{ url_for('dashboard') }}" class="hover:underline">Dashboard</a>
                 <a href="{{ url_for('logout') }}" class="hover:underline">Logout</a>
             {% else %}
-                <a href="{{ url_for('login') }}" class="hover:underline">Login</a>
+                <a href="{{ url_for('home') }}" class="hover:underline">Home</a>
+            <a href="{{ url_for('login') }}" class="hover:underline">Login</a>
                 <a href="{{ url_for('signup') }}" class="hover:underline">Sign Up</a>
             {% endif %}
         </div>

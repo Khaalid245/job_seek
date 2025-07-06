@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block title %}Welcome | JobConnect{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="text-center py-10">
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        Welcome to <span class="text-blue-600">JobConnect</span>
+    </h1>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        A platform to help job seekers showcase their skills and help employers find the right talent.
+    </p>
+    <div class="mt-6 flex justify-center gap-4">
+        <a href="{{ url_for('signup') }}" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded">Sign Up</a>
+        <a href="{{ url_for('login') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded">Login</a>
+    </div>
+</section>
+
+<!-- Cards Section -->
+<section class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto px-4 mt-12">
+    <div class="bg-white shadow rounded-lg p-6 text-center">
+        <img src="{{ url_for('static', filename='img/vision.png') }}" alt="Vision" class="w-16 h-16 mx-auto mb-4">
+        <h3 class="text-xl font-semibold mb-2">Our Vision</h3>
+        <p class="text-gray-600 text-sm">
+            To empower individuals across Somalia and Africa with opportunities by connecting them to the global workforce.
+        </p>
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-6 text-center">
+        <img src="{{ url_for('static', filename='img/mission.png') }}" alt="Mission" class="w-16 h-16 mx-auto mb-4">
+        <h3 class="text-xl font-semibold mb-2">Our Mission</h3>
+        <p class="text-gray-600 text-sm">
+            To create a transparent, accessible job-seeking platform where talent meets opportunity — especially for youth and women.
+        </p>
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-6 text-center">
+        <img src="{{ url_for('static', filename='img/goals.png') }}" alt="Goals" class="w-16 h-16 mx-auto mb-4">
+        <h3 class="text-xl font-semibold mb-2">Why JobConnect?</h3>
+        <p class="text-gray-600 text-sm">
+            We make it easy to submit your skills, get noticed, and connect with real employers seeking your talent.
+        </p>
+    </div>
+</section>
+{% endblock %}
