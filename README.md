@@ -42,7 +42,11 @@ project-folder/
 ├── users.db               # SQLite database (auto-generated)
 └── templates/
     ├── layout.html        # Base layout with Bootstrap
-    └── login_signup.html  # Combined login & signup form
+    └── login.html  # Combined login & signup form
+    ├── signup.html        # Base layout with Bootstrap
+    └── home.html  # Combined login & signup form
+    ├── dashboard_company.html        # Base layout with Bootstrap
+    └── dashboard_jobseeker.html  # Combined login & signup form
 ```
 
 ## 🚀 How to Run the App
