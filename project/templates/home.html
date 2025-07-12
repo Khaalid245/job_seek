@@ -1,47 +1,238 @@
 {% extends "layout.html" %}
 
-{% block title %}User Profiles{% endblock %}
+{% block title %}Home - Job Portal{% endblock %}
 
 {% block content %}
-<h1 class="text-2xl font-bold mb-6 text-center">Submitted User Profiles</h1>
 
-{% if user %}
-    {% for u in user %}
-    <div class="bg-white rounded-lg shadow-md p-6 mb-6 border border-gray-200">
-        <div class="flex items-center gap-4">
-            {% if u.profile_image %}
-            <img src="{{ url_for('static', filename='uploads/' ~ u.profile_image) }}"
-                 alt="Profile Image"
-                 class="w-24 h-24 rounded-full object-cover border">
-            {% else %}
-            <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
-                No Image
-            </div>
-            {% endif %}
+<!-- Hero Section with Search -->
+<section class="bg-gradient-to-r from-blue-600 to-indigo-800 text-white py-16 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto text-center">
+    <h1 class="text-4xl md:text-5xl font-bold mb-6">Find Your Dream Job Today</h1>
+    <p class="text-xl mb-8">Connecting talented professionals with top companies worldwide</p>
 
-            <div>
-                <h2 class="text-xl font-semibold text-gray-800">{{ u.username }}</h2>
-                <p class="text-gray-700"><strong>Email:</strong> {{ u.email }}</p>
-                <p class="text-gray-700"><strong>Location:</strong> {{ u.location or 'Not provided' }}</p>
-            </div>
-        </div>
-
-        <div class="mt-4 space-y-1">
-            <p class="text-gray-700"><strong>Skill:</strong> {{ u.skill or 'Not submitted' }}</p>
-            <p class="text-gray-700"><strong>Experience:</strong> {{ u.experience or 'Not submitted' }}</p>
-            <p class="text-gray-700"><strong>Bio:</strong> {{ u.bio or 'Not submitted' }}</p>
-
-            {% if u.cv_file %}
-            <a href="{{ url_for('static', filename='uploads/' ~ u.cv_file) }}"
-               target="_blank"
-               class="inline-block mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-               View CV
-            </a>
-            {% endif %}
-        </div>
+    <!-- Search Bar -->
+    <div class="max-w-2xl mx-auto relative">
+      <input
+        type="text"
+        placeholder="Search jobs by title, company, or skills..."
+        class="w-full px-6 py-4 rounded-lg text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400"
+      >
+      <button class="absolute right-2 top-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition">
+        Search
+      </button>
     </div>
-    {% endfor %}
-{% else %}
-    <p class="text-gray-500 text-center">No user profiles have been submitted yet.</p>
-{% endif %}
+  </div>
+</section>
+
+<!-- Vision & Mission Section -->
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
+    <div class="bg-blue-50 p-8 rounded-xl shadow-sm">
+      <div class="flex items-center mb-4">
+        <div class="bg-blue-100 p-3 rounded-full mr-4">
+          <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800">Our Vision</h2>
+      </div>
+      <p class="text-gray-600">
+        To revolutionize the job market by creating seamless connections between employers and job seekers through innovative technology and personalized matching.
+      </p>
+    </div>
+
+    <div class="bg-indigo-50 p-8 rounded-xl shadow-sm">
+      <div class="flex items-center mb-4">
+        <div class="bg-indigo-100 p-3 rounded-full mr-4">
+          <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800">Our Mission</h2>
+      </div>
+      <p class="text-gray-600">
+        To empower individuals in their career journeys and enable companies to find exceptional talent by providing a transparent, efficient, and user-friendly platform that goes beyond traditional job boards.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 🔹 Latest Job Postings Section -->
+<section id="jobs" class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex flex-col md:flex-row justify-between items-center mb-10">
+      <h2 class="text-3xl font-extrabold text-gray-800">🚀 Latest Job Postings</h2>
+
+      <!-- Job Search Filters -->
+      <div class="mt-4 md:mt-0 flex flex-col sm:flex-row gap-3">
+        <select class="px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <option>All Job Types</option>
+          <option>Full-time</option>
+          <option>Part-time</option>
+          <option>Remote</option>
+        </select>
+        <select class="px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+          <option>All Locations</option>
+          <option>Remote</option>
+          <option>United States</option>
+          <option>Europe</option>
+        </select>
+      </div>
+    </div>
+
+    {% if jobs %}
+    <div class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center">
+      {% for job in jobs %}
+      <div class="max-w-sm w-full bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-xl transition duration-300 ease-in-out overflow-hidden">
+        {% if job.company_logo %}
+        <div class="h-40 bg-gray-100 flex items-center justify-center p-4">
+          <img src="{{ url_for('static', filename='uploads/' ~ job.company_logo) }}"
+               alt="Company Logo"
+               class="max-h-full max-w-full object-contain">
+        </div>
+        {% endif %}
+
+        <div class="p-6 space-y-4">
+          <!-- Company Info -->
+          <div>
+            <h3 class="text-xl font-bold text-gray-900">{{ job.job_title }}</h3>
+            <p class="text-sm text-gray-600">{{ job.company_name }} • {{ job.location }}</p>
+          </div>
+
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-2 text-sm">
+            <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">
+              💼 {{ job.job_type }}
+            </span>
+            {% if job.salary %}
+            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium">
+              💰 {{ job.salary }}
+            </span>
+            {% endif %}
+          </div>
+
+          <!-- Skills -->
+          {% if job.skills %}
+          <div class="flex flex-wrap gap-2 mt-2">
+            {% for skill in job.skills.split(',') %}
+            <span class="px-2 py-1 bg-gray-200 text-gray-800 text-xs rounded-full">{{ skill.strip() }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <!-- Description Preview -->
+          <p class="text-gray-700 text-sm mt-2 line-clamp-3">
+            {{ job.job_description[:150] }}...
+          </p>
+
+          <!-- Footer -->
+          <div class="flex items-center justify-between mt-4">
+            <a href="#" class="text-blue-600 text-sm font-medium hover:underline">
+              View Details
+            </a>
+            <p class="text-xs text-gray-500">
+              Posted {{ job.posting_date.strftime('%b %d') if job.posting_date else 'Recently' }}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- View More Button -->
+    <div class="text-center mt-10">
+      <button class="px-6 py-3 bg-white border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition">
+        View All Jobs
+      </button>
+    </div>
+    {% else %}
+    <div class="text-center py-12 bg-white rounded-xl shadow-sm">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      <h3 class="mt-2 text-lg font-medium text-gray-900">No jobs available</h3>
+      <p class="mt-1 text-gray-500">Check back later for new opportunities.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+  <div class="max-w-6xl mx-auto">
+    <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-12">By The Numbers</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div class="p-6">
+        <p class="text-4xl font-bold text-blue-600 mb-2">10,000+</p>
+        <p class="text-gray-600">Jobs Posted</p>
+      </div>
+      <div class="p-6">
+        <p class="text-4xl font-bold text-blue-600 mb-2">5,000+</p>
+        <p class="text-gray-600">Companies</p>
+      </div>
+      <div class="p-6">
+        <p class="text-4xl font-bold text-blue-600 mb-2">50,000+</p>
+        <p class="text-gray-600">Job Seekers</p>
+      </div>
+      <div class="p-6">
+        <p class="text-4xl font-bold text-blue-600 mb-2">95%</p>
+        <p class="text-gray-600">Satisfaction Rate</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="py-16 px-4 sm:px-6 lg:px-8 bg-gray-50">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-3xl font-extrabold text-center text-gray-800 mb-12">Success Stories</h2>
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="bg-white p-8 rounded-xl shadow-sm">
+        <div class="flex items-center mb-4">
+          <img src="https://randomuser.me/api/portraits/women/43.jpg" class="w-12 h-12 rounded-full mr-4" alt="User">
+          <div>
+            <h4 class="font-bold">Sarah Johnson</h4>
+            <p class="text-sm text-gray-600">Software Engineer at TechCorp</p>
+          </div>
+        </div>
+        <p class="text-gray-600 italic">
+          "I found my dream job within two weeks of using this platform. The matching system is incredible and the application process was so smooth!"
+        </p>
+      </div>
+      <div class="bg-white p-8 rounded-xl shadow-sm">
+        <div class="flex items-center mb-4">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-12 h-12 rounded-full mr-4" alt="User">
+          <div>
+            <h4 class="font-bold">Michael Chen</h4>
+            <p class="text-sm text-gray-600">HR Director at InnovateCo</p>
+          </div>
+        </div>
+        <p class="text-gray-600 italic">
+          "We've hired five exceptional candidates through this portal. The quality of applicants is consistently high and the platform saves us so much time."
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Simple search functionality
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.querySelector('input[type="text"]');
+    const searchButton = searchInput.nextElementSibling;
+
+    searchButton.addEventListener('click', function() {
+      const searchTerm = searchInput.value.toLowerCase();
+      alert(`Searching for: ${searchTerm}\nThis would filter jobs in a real implementation.`);
+      // In a real implementation, you would filter the job listings here
+    });
+
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        searchButton.click();
+      }
+    });
+  });
+</script>
+
 {% endblock %}

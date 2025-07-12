@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
 <div class="flex min-h-screen">
-
     <!-- Sidebar -->
     <aside class="w-64 h-screen bg-gray-900 text-white fixed top-0 left-0 shadow-lg">
         <div class="p-6 border-b border-gray-800">
@@ -20,8 +19,8 @@
         <header class="bg-white shadow flex justify-between items-center px-10 py-4">
             <h1 class="text-xl font-semibold text-gray-800">Welcome to Your Dashboard</h1>
             <div class="flex items-center space-x-4">
-                {% if current_user.profile_image %}
-                    <img src="{{ url_for('static', filename='uploads/' ~ current_user.profile_image) }}"
+                {% if user.profile_image %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ user.profile_image) }}"
                          class="w-10 h-10 rounded-full border-2 border-blue-500 object-cover" alt="Profile">
                 {% else %}
                     <div class="w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center text-white">
@@ -34,54 +33,70 @@
         <!-- Horizontal Wide Form -->
         <section class="flex justify-center py-10 px-6">
             <div class="bg-white shadow-lg rounded-lg w-[90%] p-8">
-                <h2 class="text-2xl font-bold text-gray-800 mb-6">Submit Your Profile</h2>
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">Your Profile</h2>
 
                 <form method="POST" enctype="multipart/form-data">
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                        <!-- Username -->
+                        <div class="flex flex-col">
+                            <label class="text-gray-700 font-semibold mb-1">Username *</label>
+                            <input name="username" value="{{ user.username }}" class="border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" required>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="flex flex-col">
+                            <label class="text-gray-700 font-semibold mb-1">Email *</label>
+                            <input name="email" type="email" value="{{ user.email }}" class="border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" required>
+                        </div>
 
                         <!-- Skill -->
                         <div class="flex flex-col">
                             <label class="text-gray-700 font-semibold mb-1">Skill *</label>
-                            <input name="skill" class="border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" required>
+                            <input name="skill" value="{{ user.skill if user.skill else '' }}" class="border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" required>
                         </div>
 
                         <!-- Experience -->
                         <div class="flex flex-col">
                             <label class="text-gray-700 font-semibold mb-1">Experience *</label>
-                            <input name="experience" class="border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" required>
+                            <input name="experience" value="{{ user.experience if user.experience else '' }}" class="border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" required>
                         </div>
 
                         <!-- Location -->
                         <div class="flex flex-col">
                             <label class="text-gray-700 font-semibold mb-1">Location *</label>
-                            <input name="location" class="border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" required>
+                            <input name="location" value="{{ user.location if user.location else '' }}" class="border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" required>
                         </div>
 
                         <!-- Profile Image -->
                         <div class="flex flex-col">
-                            <label class="text-gray-700 font-semibold mb-1">Profile Image *</label>
-                            <input type="file" name="profile_image" accept="image/*" class="border px-3 py-2 rounded" required>
+                            <label class="text-gray-700 font-semibold mb-1">Profile Image</label>
+                            <input type="file" name="profile_image" accept="image/*" class="border px-3 py-2 rounded">
+                            {% if user.profile_image %}
+                                <span class="text-xs text-gray-500 mt-1">Current: {{ user.profile_image }}</span>
+                            {% endif %}
                         </div>
 
                         <!-- CV File -->
                         <div class="flex flex-col">
-                            <label class="text-gray-700 font-semibold mb-1">CV File (PDF) *</label>
-                            <input type="file" name="cv_file" accept=".pdf" class="border px-3 py-2 rounded" required>
+                            <label class="text-gray-700 font-semibold mb-1">CV File (PDF)</label>
+                            <input type="file" name="cv_file" accept=".pdf" class="border px-3 py-2 rounded">
+                            {% if user.cv_file %}
+                                <span class="text-xs text-gray-500 mt-1">Current: {{ user.cv_file }}</span>
+                            {% endif %}
                         </div>
 
                         <!-- Bio -->
                         <div class="col-span-2 md:col-span-3 flex flex-col">
                             <label class="text-gray-700 font-semibold mb-1">Bio *</label>
-                            <textarea name="bio" rows="2" class="border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" required></textarea>
+                            <textarea name="bio" rows="3" class="border px-4 py-2 rounded focus:ring-2 focus:ring-blue-500" required>{{ user.bio if user.bio else '' }}</textarea>
                         </div>
-
                     </div>
 
                     <!-- Submit Button -->
                     <div class="flex justify-end mt-6">
                         <button type="submit"
                                 class="bg-blue-600 text-white px-8 py-2 rounded hover:bg-blue-700 font-semibold">
-                            Submit
+                            Update Profile
                         </button>
                     </div>
                 </form>

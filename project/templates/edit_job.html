@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block title %}Edit Job{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto py-8">
+    <h1 class="text-2xl font-bold mb-6">Edit Job Posting</h1>
+
+    <div class="bg-white rounded-lg shadow p-6">
+        <form method="POST" enctype="multipart/form-data" class="space-y-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Company Name *</label>
+                    <input name="company_name" value="{{ job.company_name }}" required class="p-2 border rounded w-full">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Company Website</label>
+                    <input name="company_website" value="{{ job.company_website if job.company_website else '' }}" class="p-2 border rounded w-full">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Job Title *</label>
+                    <input name="job_title" value="{{ job.job_title }}" required class="p-2 border rounded w-full">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Location *</label>
+                    <input name="location" value="{{ job.location }}" required class="p-2 border rounded w-full">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Salary</label>
+                    <input name="salary" value="{{ job.salary if job.salary else '' }}" class="p-2 border rounded w-full">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Job Type *</label>
+                    <input name="job_type" value="{{ job.job_type }}" required class="p-2 border rounded w-full">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Education Level</label>
+                    <input name="education_level" value="{{ job.education_level if job.education_level else '' }}" class="p-2 border rounded w-full">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Expiration Date</label>
+                    <input name="expiration_date" type="date"
+                           value="{{ job.expiration_date.strftime('%Y-%m-%d') if job.expiration_date else '' }}"
+                           class="p-2 border rounded w-full">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Application Method *</label>
+                    <input name="application_method" value="{{ job.application_method }}" required class="p-2 border rounded w-full">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Skills (comma separated)</label>
+                    <input name="skills" value="{{ job.skills }}" class="p-2 border rounded w-full">
+                </div>
+                <div>
+                    <label class="block text-gray-700 font-semibold mb-1">Company Logo</label>
+                    <input type="file" name="company_logo" class="p-2 border rounded w-full">
+                    {% if job.company_logo %}
+                        <span class="text-xs text-gray-500 mt-1">Current: {{ job.company_logo }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-semibold mb-1">Job Description *</label>
+                <textarea name="job_description" rows="4" required class="p-2 border rounded w-full">{{ job.job_description }}</textarea>
+            </div>
+
+            <div class="flex justify-end space-x-4">
+                <a href="{{ url_for('company_dashboard') }}" class="bg-gray-500 text-white px-6 py-2 rounded hover:bg-gray-600">Cancel</a>
+                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">Update Job</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

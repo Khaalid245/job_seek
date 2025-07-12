@@ -26,6 +26,17 @@
                         <input type="password" id="password" name="password" required
                                class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring focus:ring-blue-300">
                     </div>
+
+                    <!-- ✅ Role Selection Dropdown -->
+                    <div class="mb-4">
+                        <label for="role" class="block text-sm font-medium mb-1">Account Type</label>
+                        <select name="role" id="role" required
+                                class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring focus:ring-blue-300">
+                            <option value="job_seeker">Job Seeker</option>
+                            <option value="company">Company</option>
+                        </select>
+                    </div>
+
                     <button type="submit"
                             class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200">
                         Sign Up

@@ -10,32 +10,41 @@
 <!-- ✅ Navbar -->
 <nav class="bg-gray-900 text-white">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-             <a class="flex items-center gap-2 text-lg font-semibold">
+        <!-- Logo -->
+        <a href="{{ url_for('home') }}" class="flex items-center gap-2 text-lg font-semibold">
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" stroke-width="2"
                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M5.121 17.804A6.002 6.002 0 0112 15a6.002 6.002 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
             </svg>
-            <span>Job Seeker</span>
+            <span>Job Portal</span>
         </a>
 
-        <div class="space-x-4">
+        <!-- Links -->
+        <div class="space-x-4 text-sm">
+            <a href="{{ url_for('home') }}" class="hover:underline">Home</a>
+            <a href="{{ url_for('job_seekers') }}" class="hover:underline">Job Seekers</a>
+
             {% if current_user.is_authenticated %}
                 <span class="text-gray-300">Hi, {{ current_user.username }}</span>
-                <a href="{{ url_for('dashboard') }}" class="hover:underline">Dashboard</a>
-                <a href="{{ url_for('logout') }}" class="hover:underline">Logout</a>
+
+                {% if current_user.role == 'job_seeker' %}
+                    <a href="{{ url_for('jobseeker_dashboard') }}" class="hover:underline">Dashboard</a>
+                {% elif current_user.role == 'company' %}
+                    <a href="{{ url_for('company_dashboard') }}" class="hover:underline">Dashboard</a>
+                {% endif %}
+
+                <a href="{{ url_for('logout') }}" class="hover:underline text-red-400">Logout</a>
             {% else %}
-                <a href="{{ url_for('home') }}" class="hover:underline">Home</a>
-            <a href="{{ url_for('login') }}" class="hover:underline">Login</a>
+                <a href="{{ url_for('login') }}" class="hover:underline">Login</a>
                 <a href="{{ url_for('signup') }}" class="hover:underline">Sign Up</a>
             {% endif %}
         </div>
     </div>
 </nav>
 
-<!-- ✅ Main Container -->
-<div class="max-w-2xl mx-auto mt-6 px-4">
-    <!-- Flash messages block -->
+<!-- ✅ Main Content Container -->
+<div class="max-w-4xl mx-auto mt-6 px-4">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -56,7 +65,6 @@
         {% endif %}
     {% endwith %}
 
-    <!-- Main content -->
     {% block content %}
     {% endblock %}
 </div>

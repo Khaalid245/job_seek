@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}Job Seekers{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-bold mb-6 text-center">Submitted Job Seeker Profiles</h1>
+
+{% if users %}
+    {% for u in users %}
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6 border border-gray-200">
+        <div class="flex items-center gap-4">
+            {% if u.profile_image %}
+            <img src="{{ url_for('static', filename='uploads/' ~ u.profile_image) }}"
+                 alt="Profile Image"
+                 class="w-24 h-24 rounded-full object-cover border">
+            {% else %}
+            <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
+                No Image
+            </div>
+            {% endif %}
+
+            <div>
+                <h2 class="text-xl font-semibold text-gray-800">{{ u.username }}</h2>
+                <p class="text-gray-700"><strong>Email:</strong> {{ u.email }}</p>
+                <p class="text-gray-700"><strong>Location:</strong> {{ u.location or 'Not provided' }}</p>
+            </div>
+        </div>
+
+        <div class="mt-4 space-y-1">
+            <p class="text-gray-700"><strong>Skill:</strong> {{ u.skill or 'Not submitted' }}</p>
+            <p class="text-gray-700"><strong>Experience:</strong> {{ u.experience or 'Not submitted' }}</p>
+            <p class="text-gray-700"><strong>Bio:</strong> {{ u.bio or 'Not submitted' }}</p>
+
+            {% if u.cv_file %}
+            <a href="{{ url_for('static', filename='uploads/' ~ u.cv_file) }}"
+               target="_blank"
+               class="inline-block mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+               View CV
+            </a>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <p class="text-gray-500 text-center">No job seeker profiles submitted yet.</p>
+{% endif %}
+{% endblock %}
